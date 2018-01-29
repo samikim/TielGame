@@ -16,7 +16,7 @@ namespace TrollBridge {
 
 		private CanvasGroup canvasGroup;
 		// Radius that handles the distance an object is created away from its creater (The player in this case.).
-		private float RADIUS = 0.35f;
+		private float RADIUS = 1.5f;
 
 
 		void Awake(){
@@ -148,8 +148,8 @@ namespace TrollBridge {
 					// Spawn the item from it being thrown out of the inventory.
 					GameObject goItem = Grid.helper.SpawnObject (Grid.setup.GetGameObjectPrefab (item.Title), Character_Manager.GetPlayer ().transform.position, Quaternion.identity, Character_Manager.GetPlayer (), RADIUS);
 					// Launch the item in a random direction.
-					Grid.helper.LaunchItemAwayFromPosition (goItem, Character_Manager.GetPlayer ().transform.position);
-					// Clear the old slot.
+					// Grid.helper.LaunchItemAwayFromPosition (goItem, Character_Manager.GetPlayer ().transform.position);
+                    // Clear the old slot.
 					GetComponentInParent<Inventory>().items [slotNumber] = new Item ();
 					// Destroy this gameobject.
 					Destroy (this.gameObject);

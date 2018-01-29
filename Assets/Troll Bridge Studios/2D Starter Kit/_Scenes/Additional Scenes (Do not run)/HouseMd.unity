@@ -4217,6 +4217,16 @@ Prefab:
       propertyPath: m_LinearDrag
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 61468772082685180, guid: d475bf571cd406e4a95d4f7170be5182,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61468772082685180, guid: d475bf571cd406e4a95d4f7170be5182,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d475bf571cd406e4a95d4f7170be5182, type: 2}
   m_IsPrefabParent: 0
