@@ -111,74 +111,119 @@ namespace TrollBridge {
 			return goObject;
 		}
 
-//		/// <summary>
-//		/// Method that will generate a random 1 word string.  The allowed characters are a-z, A-Z and 0-9.  You can set the length of the string by the int "length".
-//		/// </summary>
-//		/// <returns>A random 1 word string.</returns>
-//		/// <param name="length">Length.</param>
-//		/// <param name="allowedChars">Allowed chars.</param>
-//		public string GenerateRandomString(int length, string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"){
-//			// IF the length is 0.
-//			if(length == 0) throw new System.ArgumentOutOfRangeException("length", "Length cannot be less than 0.");
-//			// IF the allowedChars is empty or null.
-//			if(System.String.IsNullOrEmpty(allowedChars)) throw new System.ArgumentException("allowedChars cannot be empty.");
-//			// Create a constant variable for our byteSize (0x100 = 256, 0-255).
-//			const int byteSize = 0x100;
-//			// Create an array of the HastSets of allowedChars.
-//			var allowedCharSet = new HashSet<char>(allowedChars).ToArray();
-//			// IF our allowedCharSet length is larger than our byteSyze.
-//			if(byteSize < allowedCharSet.Length) throw new ArgumentException(String.Format("allowedChars may contain no more than {0} characters", byteSize));
-//
-//			// Use a cryptographically-secure random number generator, so now the caller is protected.
-//			using (var rngg = new System.Security.Cryptography.RNGCryptoServiceProvider())
-//			{
-//				// Create a StringBuilder
-//				var result = new System.Text.StringBuilder ();
-//				var buff = new byte[128];
-//				// While the length of the result is less than the length of how long we want our string to be.
-//				while(result.Length < length)
-//				{
-//					// Have our rng get the bytes of our byte[].
-//					rngg.GetBytes (buff);
-//					// For as long as our i is less than the length of our byte[] AND the result of the length is less than the length of the string we want.
-//					for(var i = 0; i < buff.Length && result.Length < length; ++i)
-//					{
-//						// Divide the byte into allowedCharSet sized groups.
-//						var outOfRangeStart = byteSize - (byteSize % allowedCharSet.Length);
-//						// IF we have biasing.
-//						if (outOfRangeStart <= buff [i])
-//							// Go to next iteration.
-//							continue;
-//						// Add the character to our result.
-//						result.Append (allowedCharSet[buff[i] % allowedCharSet.Length]);
-//					}
-//				}
-//				// Return our final string.
-//				return result.ToString ();
-//			}
-//		}
 
-//		/// <summary>
-//		/// Generate a set of keys for encrypting and decrypting the data to be harder to manipulate.
-//		/// </summary>
-//		public void GenerateNewKeys(){
-//			// Our security keys for Cryptography security.
-//			string publicKey;
-//			string publicAndPrivateKey;
-//			// This is where the magic happens for pooping out our keys.
-//			AsymmetricEncryption.GenerateKeys (1024, out publicKey, out publicAndPrivateKey);
-//			// Save these keys.
-//			PlayerPrefs.SetString ("PK", publicKey);
-//			PlayerPrefs.SetString ("PAPK", publicAndPrivateKey);
-//		}
+        /// <summary>
+        /// We create a methode for spawning GameObjects due to the monotonous work that would be done when anything is spawned.  
+        /// We need to make the GameObject and its children's layers that are being created be the same as the GameObject who 
+        /// spawned it and its Sprite Renderer sorting layers name needs to be the same as well.
+        /// 
+        /// This method spawns GameObjects on the circumference of a circle with a radius of "float radius".
+        /// </summary>
+        /// <returns>The object.</returns>
+        /// <param name="objectToSpawn">Object to spawn.</param>
+        /// <param name="pos">Position.</param>
+        /// <param name="quat">Quat.</param>
+        /// <param name="dropper">Dropper.</param>
+        /// <param name="radius">Radius.</param>
+        public GameObject SpawnObjectToLeftOfPlayer(GameObject objectToSpawn, Vector3 pos, Quaternion quat, GameObject dropper, float distance)
+        {
+            // Get a random spot with a radius around the pos.
+            Vector3 leftPos = new Vector3(pos.x - distance, pos.y);
+            // Spawn the Object.
+            GameObject goObject = Instantiate(objectToSpawn, leftPos, quat) as GameObject;
+            // Set the layer to the GameObject that created this Object.
+            goObject.layer = dropper.layer;
+            // IF the goObject GameObject has a Sprite Renderer AND the GameObject that spawned the goObject has a Sprite Renderer as well.
+            if (goObject.GetComponent<SpriteRenderer>() != null && dropper.GetComponent<SpriteRenderer>() != null)
+            {
+                // Set the sorting layer name to the GameObject that created this Object.
+                goObject.GetComponent<SpriteRenderer>().sortingLayerName = dropper.GetComponent<SpriteRenderer>().sortingLayerName;
+            }
+            // Loop through the amount of children this gameobject has.
+            for (int i = 0; i < goObject.transform.childCount; i++)
+            {
+                // Set the childrens layer to the layer of the entity that dropped this GameObject.
+                goObject.transform.GetChild(i).gameObject.layer = dropper.layer;
+                // IF the goObject GameObject has a Sprite Renderer AND the GameObject that spawned the goObject has a Sprite Renderer as well.
+                if (goObject.transform.GetChild(i).GetComponent<SpriteRenderer>() != null && dropper.GetComponent<SpriteRenderer>() != null)
+                {
+                    // Set the sorting layer name to the GameObject that created this Object.
+                    goObject.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = dropper.GetComponent<SpriteRenderer>().sortingLayerName;
+                }
+            }
+            // Return the Object.
+            return goObject;
+        }
 
-		/// <summary>
-		/// Returns a random Vector3 that is at position 'center' and 'radius' distance away.
-		/// </summary>
-		/// <returns>The circle.</returns>
-		/// <param name="center">Center.</param>
-		/// <param name="radius">Radius.</param>
-		public Vector3 RandomCircle(Vector3 center, float radius){
+
+        //		/// <summary>
+        //		/// Method that will generate a random 1 word string.  The allowed characters are a-z, A-Z and 0-9.  You can set the length of the string by the int "length".
+        //		/// </summary>
+        //		/// <returns>A random 1 word string.</returns>
+        //		/// <param name="length">Length.</param>
+        //		/// <param name="allowedChars">Allowed chars.</param>
+        //		public string GenerateRandomString(int length, string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"){
+        //			// IF the length is 0.
+        //			if(length == 0) throw new System.ArgumentOutOfRangeException("length", "Length cannot be less than 0.");
+        //			// IF the allowedChars is empty or null.
+        //			if(System.String.IsNullOrEmpty(allowedChars)) throw new System.ArgumentException("allowedChars cannot be empty.");
+        //			// Create a constant variable for our byteSize (0x100 = 256, 0-255).
+        //			const int byteSize = 0x100;
+        //			// Create an array of the HastSets of allowedChars.
+        //			var allowedCharSet = new HashSet<char>(allowedChars).ToArray();
+        //			// IF our allowedCharSet length is larger than our byteSyze.
+        //			if(byteSize < allowedCharSet.Length) throw new ArgumentException(String.Format("allowedChars may contain no more than {0} characters", byteSize));
+        //
+        //			// Use a cryptographically-secure random number generator, so now the caller is protected.
+        //			using (var rngg = new System.Security.Cryptography.RNGCryptoServiceProvider())
+        //			{
+        //				// Create a StringBuilder
+        //				var result = new System.Text.StringBuilder ();
+        //				var buff = new byte[128];
+        //				// While the length of the result is less than the length of how long we want our string to be.
+        //				while(result.Length < length)
+        //				{
+        //					// Have our rng get the bytes of our byte[].
+        //					rngg.GetBytes (buff);
+        //					// For as long as our i is less than the length of our byte[] AND the result of the length is less than the length of the string we want.
+        //					for(var i = 0; i < buff.Length && result.Length < length; ++i)
+        //					{
+        //						// Divide the byte into allowedCharSet sized groups.
+        //						var outOfRangeStart = byteSize - (byteSize % allowedCharSet.Length);
+        //						// IF we have biasing.
+        //						if (outOfRangeStart <= buff [i])
+        //							// Go to next iteration.
+        //							continue;
+        //						// Add the character to our result.
+        //						result.Append (allowedCharSet[buff[i] % allowedCharSet.Length]);
+        //					}
+        //				}
+        //				// Return our final string.
+        //				return result.ToString ();
+        //			}
+        //		}
+
+        //		/// <summary>
+        //		/// Generate a set of keys for encrypting and decrypting the data to be harder to manipulate.
+        //		/// </summary>
+        //		public void GenerateNewKeys(){
+        //			// Our security keys for Cryptography security.
+        //			string publicKey;
+        //			string publicAndPrivateKey;
+        //			// This is where the magic happens for pooping out our keys.
+        //			AsymmetricEncryption.GenerateKeys (1024, out publicKey, out publicAndPrivateKey);
+        //			// Save these keys.
+        //			PlayerPrefs.SetString ("PK", publicKey);
+        //			PlayerPrefs.SetString ("PAPK", publicAndPrivateKey);
+        //		}
+
+        /// <summary>
+        /// Returns a random Vector3 that is at position 'center' and 'radius' distance away.
+        /// </summary>
+        /// <returns>The circle.</returns>
+        /// <param name="center">Center.</param>
+        /// <param name="radius">Radius.</param>
+        public Vector3 RandomCircle(Vector3 center, float radius){
 			float ang = UnityEngine.Random.Range(0, 360);
 			Vector3 pos = Vector3.zero;
 			pos.x = center.x + radius * Mathf.Cos (ang * Mathf.Deg2Rad);

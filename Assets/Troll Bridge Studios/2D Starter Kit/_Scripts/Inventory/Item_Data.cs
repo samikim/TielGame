@@ -146,7 +146,7 @@ namespace TrollBridge {
 				if (data.hovered.Count == 0) 
 				{
 					// Spawn the item from it being thrown out of the inventory.
-					GameObject goItem = Grid.helper.SpawnObject (Grid.setup.GetGameObjectPrefab (item.Title), Character_Manager.GetPlayer ().transform.position, Quaternion.identity, Character_Manager.GetPlayer (), RADIUS);
+					GameObject goItem = Grid.helper.SpawnObjectToLeftOfPlayer (Grid.setup.GetGameObjectPrefab (item.Title), Character_Manager.GetPlayer ().transform.position, Quaternion.identity, Character_Manager.GetPlayer (), RADIUS);
 					// Launch the item in a random direction.
 					// Grid.helper.LaunchItemAwayFromPosition (goItem, Character_Manager.GetPlayer ().transform.position);
                     // Clear the old slot.
