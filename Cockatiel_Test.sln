@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cockatiel_Test", "Cockatiel_Test.csproj", "{EDEFB095-556E-E89D-2439-D1014924C465}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cockatiel_Test.Editor", "Cockatiel_Test.Editor.csproj", "{F169C865-504A-2338-8091-AFB2A9E47A26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDEFB095-556E-E89D-2439-D1014924C465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEFB095-556E-E89D-2439-D1014924C465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEFB095-556E-E89D-2439-D1014924C465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEFB095-556E-E89D-2439-D1014924C465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F169C865-504A-2338-8091-AFB2A9E47A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F169C865-504A-2338-8091-AFB2A9E47A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F169C865-504A-2338-8091-AFB2A9E47A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F169C865-504A-2338-8091-AFB2A9E47A26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
