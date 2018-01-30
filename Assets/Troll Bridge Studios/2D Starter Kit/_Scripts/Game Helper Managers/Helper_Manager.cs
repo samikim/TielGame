@@ -125,12 +125,21 @@ namespace TrollBridge {
         /// <param name="quat">Quat.</param>
         /// <param name="dropper">Dropper.</param>
         /// <param name="radius">Radius.</param>
-        public GameObject SpawnObjectToLeftOfPlayer(GameObject objectToSpawn, Vector3 pos, Quaternion quat, GameObject dropper, float distance)
+        public GameObject SpawnObjectNextToPlayer(GameObject objectToSpawn, Vector3 pos, Quaternion quat, GameObject dropper, float distance, bool onXAxis)
         {
+            Vector3 itemPos;
             // Get a random spot with a radius around the pos.
-            Vector3 leftPos = new Vector3(pos.x - distance, pos.y);
+            if (onXAxis)
+            {
+                itemPos = new Vector3(pos.x + distance, pos.y);
+            }
+            else
+            {
+                itemPos = new Vector3(pos.x, pos.y + distance);
+            }
+
             // Spawn the Object.
-            GameObject goObject = Instantiate(objectToSpawn, leftPos, quat) as GameObject;
+            GameObject goObject = Instantiate(objectToSpawn, itemPos, quat) as GameObject;
             // Set the layer to the GameObject that created this Object.
             goObject.layer = dropper.layer;
             // IF the goObject GameObject has a Sprite Renderer AND the GameObject that spawned the goObject has a Sprite Renderer as well.

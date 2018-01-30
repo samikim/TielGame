@@ -145,8 +145,39 @@ namespace TrollBridge {
 				// IF we are not hovering the mouse over the inventory then drop the item on the ground.
 				if (data.hovered.Count == 0) 
 				{
-					// Spawn the item from it being thrown out of the inventory.
-					GameObject goItem = Grid.helper.SpawnObjectToLeftOfPlayer (Grid.setup.GetGameObjectPrefab (item.Title), Character_Manager.GetPlayer ().transform.position, Quaternion.identity, Character_Manager.GetPlayer (), RADIUS);
+                    // Spawn the item from it being thrown out of the inventory.
+                    Vector3 charPosition = Character_Manager.GetPlayer().transform.position;
+                    Vector3 clickPosition = new Vector3(data.position.x, data.position.y);
+                    Camera camera = Camera.main;
+                    Vector3 clickMapPosition = camera.ScreenToWorldPoint(clickPosition);
+                    print("Character position: " + charPosition.ToString());
+                    print("Mouse position: " + clickMapPosition.ToString());
+                    float xDiff = clickMapPosition.x - charPosition.x;
+                    float yDiff = clickMapPosition.y - charPosition.y;
+                    if(System.Math.Abs(xDiff) >= System.Math.Abs(yDiff))
+                    {
+                        if(xDiff >= 0)
+                        {
+                            Grid.helper.SpawnObjectNextToPlayer(Grid.setup.GetGameObjectPrefab(item.Title), Character_Manager.GetPlayer().transform.position, Quaternion.identity, Character_Manager.GetPlayer(), RADIUS, true);
+                        }
+                        else
+                        {
+                            Grid.helper.SpawnObjectNextToPlayer(Grid.setup.GetGameObjectPrefab(item.Title), Character_Manager.GetPlayer().transform.position, Quaternion.identity, Character_Manager.GetPlayer(), -1*RADIUS, true);
+                        }
+                    }
+                    else
+                    {
+                        if(yDiff >= 0)
+                        {
+                            Grid.helper.SpawnObjectNextToPlayer(Grid.setup.GetGameObjectPrefab(item.Title), Character_Manager.GetPlayer().transform.position, Quaternion.identity, Character_Manager.GetPlayer(), RADIUS, false);
+
+                        }
+                        else
+                        {
+                            Grid.helper.SpawnObjectNextToPlayer(Grid.setup.GetGameObjectPrefab(item.Title), Character_Manager.GetPlayer().transform.position, Quaternion.identity, Character_Manager.GetPlayer(), -1*RADIUS, false);
+                        }
+                    }
+					// GameObject goItem = Grid.helper.SpawnObjectToLeftOfPlayer (Grid.setup.GetGameObjectPrefab (item.Title), Character_Manager.GetPlayer ().transform.position, Quaternion.identity, Character_Manager.GetPlayer (), RADIUS);
 					// Launch the item in a random direction.
 					// Grid.helper.LaunchItemAwayFromPosition (goItem, Character_Manager.GetPlayer ().transform.position);
                     // Clear the old slot.

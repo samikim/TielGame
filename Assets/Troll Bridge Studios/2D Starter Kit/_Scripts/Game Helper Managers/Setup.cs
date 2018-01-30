@@ -147,10 +147,17 @@ namespace TrollBridge {
 		}
 
 		public GameObject GetGameObjectPrefab(string gameobjectName){
-			// Loop through the array size.
-			for(int i = 0; 0 < gameobjects.Length; i++){
-				// IF we have a matching pair.
-				if(gameobjects[i].name == gameobjectName){
+            // Loop through the array size.
+            string comparableGameobjectName = gameobjectName;
+            if (comparableGameobjectName.Contains("_pickup"))
+            {
+                comparableGameobjectName = comparableGameobjectName.Replace("_pickup", "");
+            }
+
+            for (int i = 0; 0 < gameobjects.Length; i++){
+                // IF we have a matching pair.
+                
+				if(gameobjects[i].name == comparableGameobjectName){
 					// Return the GameObject
 					return gameobjects [i];
 				}
